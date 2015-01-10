@@ -1,34 +1,36 @@
+/* These code just for binarytree implement, writed by Cliviazhou*/
+
 #include <iostream>
 #include <stack>
 using namespace std;
 
-#define MAX 100           //字符串最大长度
-typedef struct Node       //二叉树结点
+#define MAX 100                                //Max length
+typedef struct Node                            //The Node of the binarytree
 {
     char data;
     Node *lchild,*rchild;
 } *Btree;
 
 
-void createBT(Btree &t);  //先序构造二叉树
+void createBT(Btree &t);                       //Create a binarytree by preorder
 
-void preorder(Btree &t);  //二叉树递归先序遍历
-void inorder(Btree &t);   //递归中序遍历
-void postorder(Btree &t); //递归后序遍历
+void preorder(Btree &t);                       //Preorder by recursion
+void inorder(Btree &t);                        //Inorder by recursion
+void postorder(Btree &t);                      //Postorder by recursion
 
-void preorderbyStack(Btree &t); //先序非递归遍历
-void inorderbyStack(Btree &t);  //中序非递归遍历
-void postorderbyStack(Btree &t);//后序非递归遍历
+void preorderbyStack(Btree &t);                //Prorder using stack not recursion
+void inorderbyStack(Btree &t);                 //Inorder using stack not recursion
+void postorderbyStack(Btree &t);               //Postorder using stack not recursion
 
-/*****************Latest Common Father*******************/
-int findNode1(Btree &t,char ch,char p[]); //找出结点1到根的路径
-int findNode2(Btree &t,char ch,char q[]); //找出结点2到根的路径
+/*****************Latest Common Father*******************/  // This is the algorithm to find the latest common father of two binarytree node.
+int findNode1(Btree &t,char ch,char p[]);      //Find the path which from node1 to root
+int findNode2(Btree &t,char ch,char q[]);      //Find the path whick from node2 to root
 
-void compare(char *p,char *q);            //比较两条路径，找到第一个公共结点
+void compare(char *p,char *q);                 //To compare the path to find the first common node
 static int i = 0;
 static int j = 0;
 
-void createBT(Btree &t)   //先序创建二叉树 #表示空指针
+void createBT(Btree &t)                        //Create a binarytree , '#' means the NULL pointer.
 {
     char ch;
     cin>>ch;
@@ -38,7 +40,7 @@ void createBT(Btree &t)   //先序创建二叉树 #表示空指针
     {
         if(!(t = new Node)) exit(1);
         
-        t ->data = ch;    //递归创建二叉树
+        t ->data = ch;                         //Create a binarytree by recursion
         createBT(t->lchild);
         createBT(t->rchild);
     }
@@ -90,7 +92,7 @@ void preorderbyStack(Btree &t)
     {
         if(p)
         {
-            cout<<p->data<<" ";    //先序遍历二叉树，先访问根节点，再访问左子树
+            cout<<p->data<<" ";                    //Preorder, first visiting root and then visiting the left-binarytree
             s.push(p);
             p = p->lchild;
         }
@@ -119,7 +121,7 @@ void inorderbyStack(Btree &t)
         else
         {
             p = s.top();
-            cout<<p->data<<" ";             //中序遍历二叉树，先访问左子树
+            cout<<p->data<<" ";                     //Inorder, first visiting the left node and then root
             s.pop();
             p = p->rchild;
         }
@@ -135,7 +137,7 @@ void postorderbyStack(Btree &t)
     
     while (p || !s.empty())
     {
-        if(p)                                   //后序遍历先访问左结点，再右结点，最后根结点
+        if(p)                                       //Postorder, first visiting the left node and the right node, finally root.
         {
             s.push(p);
             p = p->lchild;
@@ -143,19 +145,19 @@ void postorderbyStack(Btree &t)
         else
         {
             p = s.top();
-            if( p->rchild&&p->rchild != flag) //如果右子树不为空且没有被访问过
+            if( p->rchild&&p->rchild != flag)      //if the left-tree is not NULL and has not been visited
             {
-                p = p->rchild;                 //转到右子树
+                p = p->rchild;                     //Switch to right-tree
                 s.push(p);
                 p = p->lchild;
             }
-            else                               //如果右子树为空，当前结点为访问结点
+            else                                   //if the rigit-tree is NULL, and then visit current node
             {
                 s.pop();
                 cout<<p->data<<" ";
                 
-                flag = p;                     //把刚刚访问的结点做标记，防止重复访问
-                p = nullptr;                  //把p置为空指针，如果不置位空。还要压入栈一次，就造成死循环
+                flag = p;                          //Mark the node which has been visited just now.
+                p = nullptr;                       //Make the pointer p NULL
             }
         }
     }
@@ -170,7 +172,7 @@ int findNode1(Btree &t,char ch,char p[])
 {
     if(!t)
         return 0;
-    else if(t->data == ch)                    //从所给的结点出发，搜索到达根节点的路径，并将路径记录下来
+    else if(t->data == ch)                          //Search from the node to root, using string to record the path
     {
         *(p+i) = t->data;
         ++i;
@@ -224,7 +226,7 @@ int findNode2(Btree &t,char ch,char q[])
     }
 }
 
-void compare(char *p,char *q)                     //比较两条路径，第一个不同的路径点的父结点就是其公共父结点
+void compare(char *p,char *q)                         //To compare the two path, the first uncommon node is the LCF
 {
     i--;
     j--;
@@ -239,7 +241,7 @@ void compare(char *p,char *q)                     //比较两条路径，第一�
 
 int main()
 {
-    //测试用例：abc##de#g##f###
+    /* Test example：abc##de#g##f### */
     
     Btree t = new Node;
     createBT(t);

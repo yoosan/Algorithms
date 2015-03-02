@@ -4,7 +4,7 @@
 #include <stack>
 using namespace std;
 
-#define MAX 100                                //Max length
+#define MAX 100                                //define the max length
 typedef struct Node                            //The Node of the binarytree
 {
     char data;

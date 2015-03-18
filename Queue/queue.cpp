@@ -8,6 +8,7 @@
 
 #include "queue.h"
 
+//  Constructor and Destructor of queue
 template <class T>
 queue<T>::queue() : _(new T[_CAP], size(0), _cap(_CAP)) {}
 
@@ -22,6 +23,7 @@ queue<T> :: ~queue(){
     delete []_;
 }
 
+//  Operator '=' reload
 template <class T>
 queue<T>& queue<T> :: operator=(const queue& q){
     _ = new T[q._size];
@@ -33,6 +35,7 @@ queue<T>& queue<T> :: operator=(const queue& q){
     }
 }
 
+// Member functions that change or return imformation of queue
 template <class T>
 int queue<T>::size() const{
     return _size;
@@ -58,7 +61,7 @@ void queue<T>::push(const T &data){
     if(_size == _cap) rebuild();
     else _[++_size] = data;
 }
-
+//  The rebuild function is to double the capacity.
 template <class T>
 void queue<T> :: rebuild(){
     _cap *= 2;

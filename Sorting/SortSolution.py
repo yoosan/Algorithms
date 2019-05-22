@@ -50,7 +50,7 @@ class Sortsolution:
 		self.qsort(0, len(self.arr))
 	# -! mergeSort...
   
-# ~Test example 
+#  ~Test example 
 a = [2, 1, 32, 12, 9, 34, 4, 21]
 s = Sortsolution(a)
 s.quickSort()
